@@ -16,14 +16,26 @@ function App() {
   };
 
   const prevPage = () => {
-    setPage(page - 1);
+    setPage((oldPage) => {
+      let newPage = oldPage - 1;
+      if (newPage < 0) {
+        newPage = data.length - 1;
+      }
+      return newPage;
+    });
   };
 
   const nextPage = () => {
-    setPage(page + 1);
+    setPage((oldPage) => {
+      let newPage = oldPage + 1;
+      if(newPage > data.length - 1) {
+        newPage = 0;
+      }
+      return newPage;
+    })
   };
 
-  // attemp1 method I've tried
+  // attemp I've tried using dataset & data-*
   // const prevAndNext = (e) => {
   //   const label = e.target.dataset.label;
   //   if (label === 'prev') {
@@ -56,11 +68,13 @@ function App() {
         </div>
         {!loading && (
           <div className="btn-container">
-            <button
+            {/* <button
               className="prev-btn"
               onClick={prevAndNext}
               data-label="prev"
-            >
+            > 
+            </button> */}
+            <button className="prev-btn" onClick={prevPage}>
               prev
             </button>
             {data.map((item, index) => {
@@ -74,11 +88,14 @@ function App() {
                 </button>
               );
             })}
-            <button
+            {/* <button
               className="next-btn"
               onClick={prevAndNext}
               data-label="next"
             >
+              next
+            </button> */}
+            <button className="next-btn" onClick={nextPage}>
               next
             </button>
           </div>
