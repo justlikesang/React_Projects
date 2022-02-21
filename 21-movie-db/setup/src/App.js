@@ -5,7 +5,8 @@ import Home from './Home'
 import Movie from './SingleMovie'
 
 function App() {
-  return <h2>movie DB starter</h2>
+  // We included Router component in the index.js
+  return <Switch>movie DB starter</Switch>
 }
 
 export default App
