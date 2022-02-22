@@ -31,6 +31,7 @@ const AppProvider = ({ children }) => {
     try {
       const response = await fetch(url);
       const data = await response.json();
+      console.log(data);
       dispatch({
         type: SET_STORIES,
         payload: { hits: data.hits, nbPages: data.nbPages },
@@ -44,17 +45,24 @@ const AppProvider = ({ children }) => {
     dispatch({ type: 'REMOVE_STORY', payload: { id } });
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    displatch({ type: 'HANDLE_SEARCH', payload: query });
+  const handleSearch = (query) => {
+    dispatch({ type: 'HANDLE_SEARCH', payload: query });
+  };
+
+  const handlePage = (value) => {
+    console.log(value);
+    // dispatch
+    dispatch({ type: 'HANDLE_PAGE', payload: { value, page: state.page } });
   };
 
   useEffect(() => {
     fetchStories(`${API_ENDPOINT}query=${state.query}&page=${state.page}`);
-  }, []);
+  }, [state.query, state.page]);
 
   return (
-    <AppContext.Provider value={{ ...state, removeStory, handleSearch }}>
+    <AppContext.Provider
+      value={{ ...state, removeStory, handleSearch, handlePage }}
+    >
       {children}
     </AppContext.Provider>
   );
